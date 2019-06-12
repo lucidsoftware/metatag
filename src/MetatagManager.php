@@ -533,7 +533,10 @@ class MetatagManager implements MetatagManagerInterface {
         // that needs to be filtered and converted to a string.
         // @see Robots::setValue()
         $tag->setValue($value);
-        $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+				$langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
+				if ($entity) {
+					$langcode = $entity->language()->getId();
+				}
 
         $processed_value = PlainTextOutput::renderFromHtml(htmlspecialchars_decode($this->tokenService->replace($tag->value(), $token_replacements, ['langcode' => $langcode])));
 
